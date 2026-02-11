@@ -13,9 +13,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Create dynamic test data
+        run: node tests/seed/create-test-data.js
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+
       - name: Install Newman
         run: npm install -g newman
 
       - name: Run Postman Tests
         run: |
-          newman run tests/postman/collection.json
+          newman run tests/postman/collections/users.collection.json
